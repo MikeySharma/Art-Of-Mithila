@@ -11,25 +11,46 @@ class PredictView(View):
         """
         Handle POST requests for image classification.
         """
-        # Validate request
+        # Validate the request for an image file
         if not request.FILES.get('image'):
             return JsonResponse({'error': 'No image file provided'}, status=400)
 
         try:
-            # Decode the image
+            # Read and decode the uploaded image
             uploaded_file = request.FILES['image']
             image = tf.io.decode_image(uploaded_file.read(), channels=3)
 
+            # Define the labels
             image_labels = [
-            "Mandala Art",
-            "Mithila Painting",
-            "Paubha Painting",
-            "Thangka Painting"
+                "Mandala Art",
+                "Mithila Painting",
+                "Paubha Painting",
+                "Thangka Painting"
             ]
-            # Predict the class
-            predicted_class = predict_class(image)
-            predicted_painting = image_labels[int(predicted_class)]
-            return JsonResponse({'Predicted Painting': predicted_painting}, status=200)
 
+            # Get predicted probabilities from the model
+            predicted_probabilities = predict_class(image)  # Example: [0.01, 0.9999, 0.0001, 0.0000]
+
+            if len(predicted_probabilities) != len(image_labels):
+                return JsonResponse({'error': 'Model output does not match the number of labels.'}, status=500)
+
+            # Create a sorted list of dictionaries with labels and their respective probabilities
+            predictions = sorted(
+                [{"label": label, "percentage": round(prob * 100, 2)}
+                 for label, prob in zip(image_labels, predicted_probabilities)],
+                key=lambda x: x["percentage"], reverse=True
+            )
+
+            # Find the label with the highest probability
+            predicted_painting = max(predictions, key=lambda x: x["percentage"])["label"]
+
+            # Return the result as JSON
+            return JsonResponse({
+                'Predicted Painting': predicted_painting,
+                'Predictions': predictions
+            }, status=200)
+
+        except tf.errors.InvalidArgumentError:
+            return JsonResponse({'error': 'Invalid image file. Please upload a valid image.'}, status=400)
         except Exception as e:
-            return JsonResponse({'error': str(e)}, status=500)
+            return JsonResponse({'error': f"An unexpected error occurred: {str(e)}"}, status=500)
