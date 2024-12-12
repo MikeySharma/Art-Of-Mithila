@@ -57,7 +57,7 @@ export default function ImageRecognition() {
       const formData = new FormData();
       formData.append("image", selectedFile);
 
-      const response = await fetch("http://localhost:3000/api/predict", {
+      const response = await fetch("/api/predict", {
         method: "POST",
         body: formData,
       });
