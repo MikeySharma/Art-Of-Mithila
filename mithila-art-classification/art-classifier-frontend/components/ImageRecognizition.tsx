@@ -1,5 +1,6 @@
 
 'use client';
+import { classifyImage } from "@/actions/prediction";
 import Image from "next/image";
 import React, { useState, useCallback } from "react";
 import { Accept, useDropzone } from "react-dropzone";
@@ -58,17 +59,8 @@ export default function ImageRecognition() {
       const formData = new FormData();
       formData.append("image", selectedFile);
 
-      const response = await fetch("/api/predict", {
-        method: "POST",
-        body: formData,
-      });
+      const data: PredictionsResponse = await classifyImage(formData);
 
-      if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(errorText || "Failed to classify the image.");
-      }
-
-      const data: PredictionsResponse = await response.json();
       setPredictions(data);
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : "An unexpected error occurred.";
@@ -83,7 +75,7 @@ export default function ImageRecognition() {
     return () => {
       window.removeEventListener("paste", handlePaste);
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const accept: Accept = {
     "image/jpeg": ["gzip", "deflate"],
