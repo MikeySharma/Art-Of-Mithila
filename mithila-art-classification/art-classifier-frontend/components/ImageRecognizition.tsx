@@ -51,7 +51,7 @@ export default function ImageRecognition() {
       const response = await fetch(imageUrl);
       const blob = await response.blob();
       const file = new File([blob], "demo-image.jpg", { type: blob.type });
-  
+
       // Call handleFileChange with the created File object
       handleFileChange(file);
     } catch (error) {
@@ -110,9 +110,10 @@ export default function ImageRecognition() {
     accept: accept,
     multiple: false,
   });
+  const date = new Date().getFullYear();
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 text-white py-4 px-4">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 text-white py-2 px-4">
       <h1 className="text-4xl font-bold mb-8">🎨 Art Classifier</h1>
       <div className="w-full h-full flex items-center justify-around flex-wrap">
         <div className="w-fit h-fit">
@@ -183,7 +184,7 @@ export default function ImageRecognition() {
                         alt={item.name}
                         className="rounded-md cursor-pointer w-full h-full object-cover"
                       />
-                      <div onClick={()=> handleDemoImageClick(item.path)} className="absolute cursor-pointer inset-0 flex items-center justify-center bg-black bg-opacity-50 text-white font-semibold text-lg rounded-md">
+                      <div onClick={() => handleDemoImageClick(item.path)} className="absolute cursor-pointer inset-0 flex items-center justify-center bg-black bg-opacity-50 text-white font-semibold text-lg rounded-md">
                         {item.name}
                       </div>
                     </div>
@@ -197,6 +198,9 @@ export default function ImageRecognition() {
         )}
       </div>
 
+      <section className="footer fixed bottom-0 left-0 w-full text-center py-2 font-semibold">
+        &copy; Mikey Sharma {date}
+      </section>
     </div>
   );
 }
