@@ -44,6 +44,19 @@ export default function ImageRecognition() {
       handleFileChange(file);
     }
   };
+  const handleDemoImageClick = async (imageUrl: string): Promise<void> => {
+    try {
+      // Fetch the image and convert it to a blob
+      const response = await fetch(imageUrl);
+      const blob = await response.blob();
+      const file = new File([blob], "demo-image.jpg", { type: blob.type });
+  
+      // Call handleFileChange with the created File object
+      handleFileChange(file);
+    } catch (error) {
+      console.error("Error converting image to file:", error);
+    }
+  };
 
   const handleSubmit = async (event: React.FormEvent): Promise<void> => {
     event.preventDefault();
@@ -100,7 +113,7 @@ export default function ImageRecognition() {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 text-white py-4 px-4">
       <h1 className="text-4xl font-bold mb-8">🎨 Art Classifier</h1>
-      <div className="w-full h-full flex items-start justify-around flex-wrap">
+      <div className="w-full h-full flex items-center justify-around flex-wrap">
         <div className="w-fit h-fit">
 
           <div
@@ -152,6 +165,33 @@ export default function ImageRecognition() {
                 </li>
               ))}
             </ul>
+          </div>
+        )}
+        {!predictions && (
+          <div className=" bg-white text-gray-800 rounded-lg shadow-lg p-6 max-w-lg w-full">
+            <h2 className="text-xl font-bold text-gray-800 mb-4">Try With Demo Images</h2>
+            <div className="w-full grid grid-cols-2 gap-2">
+              {
+                new Array(4).fill(null).map((item, index) => {
+                  return (
+                    <div className="col-span-1 w-full relative" key={index}>
+                      <Image
+                        src='/paintings/mithila-painting.jpg'
+                        height={200}
+                        width={400}
+                        alt="Mithila Painting"
+                        className="rounded-md cursor-pointer"
+                      />
+                      <div onClick={()=> handleDemoImageClick('/paintings/mithila-painting.jpg')} className="absolute cursor-pointer inset-0 flex items-center justify-center bg-black bg-opacity-50 text-white font-semibold text-lg rounded-md">
+                        Mithila Painting
+                      </div>
+                    </div>
+                  )
+                })
+              }
+
+            </div>
+
           </div>
         )}
       </div>
