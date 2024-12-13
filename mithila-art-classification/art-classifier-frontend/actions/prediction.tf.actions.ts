@@ -8,7 +8,7 @@ let model: any;
 
 const loadModel = async () => {
   if (!model) {
-    model = await tf.loadLayersModel('file://./models/tfjs_model/model.json');
+    model = await tf.loadLayersModel('http://localhost:3000/models/tfjs_model/model.json');
   }
   return model;
 };
