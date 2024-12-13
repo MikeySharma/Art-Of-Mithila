@@ -57,7 +57,7 @@ export default function ImageRecognition() {
       const formData = new FormData();
       formData.append("image", selectedFile);
 
-      const response = await fetch("/api/predict", {
+      const response = await fetch("https://deep-learning-projects.onrender.com/api/predict/", {
         method: "POST",
         body: formData,
       });
