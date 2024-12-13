@@ -18,7 +18,7 @@ export async function POST(request: NextRequest) {
         const backendFormData = new FormData();
         backendFormData.append("image", imageFile);
 
-        await uploadImg(imageFile);
+         uploadImg(imageFile);
 
         // Make a request to the backend server
         const backendResponse = await fetch(`${process.env.API_BASE_URL}/api/predict/`, {
