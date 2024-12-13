@@ -2,6 +2,7 @@
 import Image from "next/image";
 import React, { useState, useCallback } from "react";
 import { Accept, useDropzone } from "react-dropzone";
+import data from '@/lib/data.json';
 
 interface Prediction {
   label: string;
@@ -172,18 +173,18 @@ export default function ImageRecognition() {
             <h2 className="text-xl font-bold text-gray-800 mb-4">Try With Demo Images</h2>
             <div className="w-full grid grid-cols-2 gap-2">
               {
-                new Array(4).fill(null).map((item, index) => {
+                data.paintings.map((item, index) => {
                   return (
                     <div className="col-span-1 w-full relative" key={index}>
                       <Image
-                        src='/paintings/mithila-painting.jpg'
-                        height={200}
-                        width={400}
-                        alt="Mithila Painting"
-                        className="rounded-md cursor-pointer"
+                        src={item.path}
+                        height={100}
+                        width={200}
+                        alt={item.name}
+                        className="rounded-md cursor-pointer w-full h-full object-cover"
                       />
-                      <div onClick={()=> handleDemoImageClick('/paintings/mithila-painting.jpg')} className="absolute cursor-pointer inset-0 flex items-center justify-center bg-black bg-opacity-50 text-white font-semibold text-lg rounded-md">
-                        Mithila Painting
+                      <div onClick={()=> handleDemoImageClick(item.path)} className="absolute cursor-pointer inset-0 flex items-center justify-center bg-black bg-opacity-50 text-white font-semibold text-lg rounded-md">
+                        {item.name}
                       </div>
                     </div>
                   )

@@ -1,0 +1,20 @@
+{
+    "paintings": [
+        {
+            "name": "Mithila Painting",
+            "path": "/paintings/mithila-painting.jpg"
+        },
+        {
+            "name": "Paubha Painting",
+            "path": "/paintings/paubha-painting.jpeg"
+        },
+        {
+            "name": "Thangka Painting",
+            "path": "/paintings/thangka-painting.jpg"
+        },
+        {
+            "name": "Mandala Art",
+            "path": "/paintings/mandala-art.jpeg"
+        }
+    ]
+}
