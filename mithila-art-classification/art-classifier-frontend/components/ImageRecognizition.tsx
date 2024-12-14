@@ -170,7 +170,7 @@ export default function ImageRecognition() {
           </div>
         )}
         {!predictions && (
-          <div className=" bg-white text-gray-800 rounded-lg shadow-lg p-6 max-w-lg w-full">
+          <div className="mt-8 bg-white text-gray-800 rounded-lg shadow-lg p-6 max-w-lg w-full">
             <h2 className="text-xl font-bold text-gray-800 mb-4">Try With Demo Images</h2>
             <div className="w-full grid grid-cols-2 gap-2">
               {
