@@ -53,6 +53,7 @@ def predict_class(image):
     """
     Predict the class of the given image and return probabilities for each label.
     """
+    global model  # Use the globally loaded model
     processed_image = preprocess_image(image)
     predictions = model.predict(processed_image)
     return np.array(predictions[0])
